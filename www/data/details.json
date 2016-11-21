@@ -1,0 +1,44 @@
+{
+  "productId": "1",
+  "imgSrcs": [
+    "img/details/detail01.jpg",
+    "img/details/detail02.jpg",
+    "img/details/detail03.jpg",
+    "img/details/detail04.jpg",
+    "img/details/detail05.jpg",
+    "img/details/detail06.jpg"
+    
+  ],
+  "brand": "若昕",
+  "type": "韩版睡衣",
+  "labels": [
+    "女冬法兰绒家具服",
+    "加厚珊瑚绒",
+    "女人卡通甜美",
+    "睡衣秋冬套装"
+    
+  ],
+  "size": "666 女 M",
+  "price": "115",
+  "colors": [
+    {
+      "name": "红",
+      "value": "red"
+    },
+    {
+      "name": "蓝",
+      "value": "blue"
+    },
+    {
+      "name": "绿",
+      "value": "green"
+    }
+  ],
+  "measure": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "freight": "店铺单笔订单不满89元，货到付款运费10元，在线支付运费10元"
+}

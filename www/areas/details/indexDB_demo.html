@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+        	// 连接数据库
+        	//1. indexedDB
+			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+			// 2.定义一个数据库的基本信息
+			var dbInfo = {
+				dbName: 'shopping',
+				dbVersion: '5.0',
+				dbInstance: {}
+			}
+
+			// 3. 创建打开数据库
+			var dbConnect = window.indexedDB.open(dbInfo.dbName, dbInfo.dbVersion);
+
+			// 4.写回调函数, 第一创建数据库的时候，或者更新数据库的信息时候就会调用。
+			dbConnect.onupgradeneeded = function(e) {
+				// 可以创建表
+				console.log(e);
+				// 拿到了数据库的句柄。（对文件）
+				var _db = e.target.result;
+				// 在数据库中创建一个表
+				var storeNames = _db.objectStoreNames;
+				if(!storeNames.contains('order')) {
+					_db.createObjectStore("order", {
+						keyPath: 'goodsId',
+						autoIncrement: true
+					});	
+				}
+			}
+
+			// 成功回调
+			dbConnect.onsuccess = function(e) {
+				// 想向cart表中添加数据
+				var _db = e.target.result;
+				// 这个是拿到了表的事务句柄
+				var trans = _db.transaction(['order'], "readwrite");
+
+				// 拿到了表的存储事务的句柄
+				var store = trans.objectStore("order");
+
+				// store.add({
+				// 	goodsId: "1-M-red",
+				// 	prise: 12.2,
+				// 	name: "衣服",
+				// 	size:'L'
+				// });
+				
+				// 只能对表进行操作一次
+				// store.delete("1-M-red");
+
+				// store.put({
+				// 	goodsId: "23",
+				// 	prise: 12.2,
+				// 	name: "衣服",
+				// 	size:'XXL'
+				// })
+				// var result = store.get("23");
+				// // console.log(result);
+				// result.onsuccess = function(e) {
+				// 	console.log(e.target.result);
+				// }
+				// result.onerror = function(e) {
+				// 	console.log("该表中没有此数据");
+				// }
+				// 
+				var cursor = store.openCursor();
+				var data = [];
+				cursor.onsuccess = function(e) {
+					if(e.target.result && e.target.result !== null) {
+						data.push(e.target.result.value);
+						e.target.result.continue();
+					}else {
+						console.log(data);
+					}	
+				}
+			}
+
+
+			dbConnect.onerror = function (e) {
+			    console.log("数据库连接失败");
+			}
+        </script>
+    </body>
+</html>

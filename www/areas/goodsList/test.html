@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script type="text/javascript" src="../../lib/angular/angular.min.js"></script>
+    </head>
+    <body ng-app="app" ng-controller="appController">
+        <script type="text/javascript">
+        	var app = angular.module("app", []);
+        	app.controller('appController', ['httpService', function(httpService) {
+        		// function Hello(status) {
+        		// 	return new Promise(resolve, reject) {
+        		// 		if(status == true) {
+        		// 			resolve("请求成功");
+        		// 		}else {
+        		// 			reject("请求失败");
+        		// 		}
+        		// 	}
+        		// }
+
+        		// Hello(true).then(function(data){}, function(data) {})
+        		
+
+        		//返回的这个对象中有resolve函数，也有reject函数，同时也有，promise对象。
+        		// function Hello(status) {
+        		// 	var q = $q.defer();
+        		// 	if(status) {
+        		// 		q.resolve("请求成功");
+        		// 	}else {
+        		// 		q.reject("请求失败");
+        		// 	}
+
+        		// 	return q.promise;
+        		// }
+
+        		// var demo = Hello(false);
+        		// demo.then(function(data) {
+        		// 	console.log(data);
+        		// }, function(data) {
+        		// 	console.log(data);
+        		// })
+        		httpService.get(url, {}).then(function(data) {
+        			console.log(data);
+        		}, function(data) {
+        			console.log(data);
+        		}).then(function() {}, function() {});
+
+        	}]);
+
+        	app.service('httpService', ['$http', '$q', function($http, $q) {
+        		// 查询
+        		this.q = $q.defer();
+
+        		this.get = function(url, data) {
+        			// 1.具有灵活性 2.在这个地方, 处理的数据都有一样的操作，就比较方便。数据处理过后再进行http请求
+        			$http.get(url).success(function(success_data) {
+        				this.q.resolve(success_data);
+        			}).error(function(failed_data) {
+        				this.q.reject(failed_data);
+        			})
+
+        			return this.q;
+        		};
+
+        		// 增加
+        		this.post = function() {
+
+        		};
+
+        		// 更新
+        		this.put = function() {
+
+        		};
+
+        		// 删除
+        		this.delete = function() {
+
+        		};
+        	}]);
+
+        </script>
+    </body>
+</html>
